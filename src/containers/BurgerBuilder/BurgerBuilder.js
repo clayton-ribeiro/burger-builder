@@ -87,30 +87,39 @@ class BurgerBuilder extends Component {
     this.setState({ purchasing: false });
   };
 
-  purhaseContinueHandler = () => {
+  purchaseContinueHandler = () => {
     //alert("You continue!");
-    this.setState({ loading: true });
-    const order = {
-      ingridients: this.state.ingridients,
-      price: this.state.totalPrice,
-      custumer: {
-        name: "Clayton",
-        address: {
-          street: "Test",
-          zipCode: "1234",
-          country: "Brasil",
-        },
-        email: "clayton.julio@gmail.com",
-      },
-      deliveryMethod: "fastest",
-    };
-    axios
-      .post("/orders.json", order)
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error))
-      .finally(() => {
-        this.setState({ loading: true, purchasing: false });
-      });
+    // this.setState({ loading: true });
+    // const order = {
+    //   ingridients: this.state.ingridients,
+    //   price: this.state.totalPrice,
+    //   custumer: {
+    //     name: "Clayton",
+    //     address: {
+    //       street: "Test",
+    //       zipCode: "1234",
+    //       country: "Brasil",
+    //     },
+    //     email: "clayton.julio@gmail.com",
+    //   },
+    //   deliveryMethod: "fastest",
+    // };
+    // axios
+    //   .post("/orders.json", order)
+    //   .then((response) => console.log(response))
+    //   .catch((error) => console.log(error))
+    //   .finally(() => {
+    //     this.setState({ loading: true, purchasing: false });
+    //   });
+const queryParams = [];
+for (let i in this.state.ingridients) {
+  queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingridients[i]))
+}
+const queryString = queryParams.join('&');
+    this.props.history.push({
+      "pathname":'/checkout',
+      "search": '?' + queryString
+    });
   };
 
   render() {
@@ -143,7 +152,7 @@ class BurgerBuilder extends Component {
         <OrderSummary
           price={this.state.totalPrice}
           purchaseCancelled={this.purchaseCancelHandler}
-          purchasedContinued={this.purhaseContinueHandler}
+          purchasedContinued={this.purchaseContinueHandler}
           ingridients={this.state.ingridients}
         />
       );
