@@ -92,6 +92,7 @@ const queryParams = [];
 for (let i in this.state.ingridients) {
   queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingridients[i]))
 }
+queryParams.push('price=' + this.state.totalPrice)
 const queryString = queryParams.join('&');
     this.props.history.push({
       "pathname":'/checkout',
